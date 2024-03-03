@@ -5,9 +5,11 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 
-namespace WebAPI.Controllers
+namespace WebAPI.Controllers.V2
 {
+    [ApiExplorerSettings(IgnoreApi = true)]
     [Route("api/[controller]")]
+    [ApiVersion("2.0")]
     [ApiController]
     public class PostsController : ControllerBase
     {
@@ -22,14 +24,19 @@ namespace WebAPI.Controllers
         public IActionResult Get()
         {
             var posts = _postService.GetAllPosts();
-            return Ok(posts);
+            return Ok(
+                new
+                {
+                    Posts = posts,
+                    Count = posts.Count()
+                });
         }
         [SwaggerOperation(Summary = "Retrievers a specific post by unique id")]
         [HttpGet("{id}")]
-        public IActionResult Get(int id) 
-        { 
+        public IActionResult Get(int id)
+        {
             var post = _postService.GetPostById(id);
-            if (post == null) 
+            if (post == null)
             {
                 return NotFound();
             }
@@ -47,7 +54,7 @@ namespace WebAPI.Controllers
 
         [SwaggerOperation(Summary = "Update a existing post")]
         [HttpPut]
-        public IActionResult Update(UpdatePostDto updatePost) 
+        public IActionResult Update(UpdatePostDto updatePost)
         {
             _postService.UpdatePost(updatePost);
             return NoContent();
@@ -55,7 +62,7 @@ namespace WebAPI.Controllers
 
         [SwaggerOperation(Summary = "Delete a specific post")]
         [HttpDelete]
-        public IActionResult Delete(int id) 
+        public IActionResult Delete(int id)
         {
             _postService.DeletePost(id);
             return NoContent();
