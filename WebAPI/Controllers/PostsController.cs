@@ -1,4 +1,5 @@
-﻿using Application.Interfaces;
+﻿using Application.Dto;
+using Application.Interfaces;
 using Domain.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -34,6 +35,30 @@ namespace WebAPI.Controllers
             }
 
             return Ok(post);
+        }
+
+        [SwaggerOperation(Summary = "Create a new post")]
+        [HttpPost]
+        public IActionResult Create(CreatePostDto newPost)
+        {
+            var post = _postService.AddNewPost(newPost);
+            return Created($"api/posts/{post.Id}", post);
+        }
+
+        [SwaggerOperation(Summary = "Update a existing post")]
+        [HttpPut]
+        public IActionResult Update(UpdatePostDto updatePost) 
+        {
+            _postService.UpdatePost(updatePost);
+            return NoContent();
+        }
+
+        [SwaggerOperation(Summary = "Delete a specific post")]
+        [HttpDelete]
+        public IActionResult Delete(int id) 
+        {
+            _postService.DeletePost(id);
+            return NoContent();
         }
     }
 }
