@@ -61,5 +61,12 @@ namespace WebAPI.Controllers.V1
             _postService.DeletePost(id);
             return NoContent();
         }
+        [SwaggerOperation(Summary = "Searching specific title")]
+        [HttpGet("Search/{title}")]
+        public IActionResult SearachingPost(string title)
+        {
+            var searchingPost = _postService.SearachingPost(title);
+            return Ok(searchingPost);
+        }
     }
 }

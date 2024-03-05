@@ -57,5 +57,11 @@ namespace Application.Services
             var post = _postRepository.GetById(id);
             _postRepository.Delete(post);
         }
+        public async Task<List<PostDto>> SearachingPost(string searchingTitle)
+        {
+            var posts = _postRepository.GetAll();
+            var postFound = posts.Where(post => post.Title.Contains(searchingTitle));
+            return _mapper.Map<List<PostDto>>(postFound);
+        }
     }
 }
