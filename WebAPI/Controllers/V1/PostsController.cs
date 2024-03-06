@@ -20,16 +20,16 @@ namespace WebAPI.Controllers.V1
         }
         [SwaggerOperation(Summary = "Retrieves all posts")]
         [HttpGet]
-        public IActionResult Get()
+        public async Task<IActionResult> Get()
         {
-            var posts = _postService.GetAllPosts();
+            var posts = await _postService.GetAllPostsAsync();
             return Ok(posts);
         }
         [SwaggerOperation(Summary = "Retrievers a specific post by unique id")]
         [HttpGet("{id}")]
-        public IActionResult Get(int id)
+        public async Task<IActionResult> Get(int id)
         {
-            var post = _postService.GetPostById(id);
+            var post = await _postService.GetPostByIdAsync(id);
             if (post == null)
             {
                 return NotFound();
@@ -40,32 +40,32 @@ namespace WebAPI.Controllers.V1
 
         [SwaggerOperation(Summary = "Create a new post")]
         [HttpPost]
-        public IActionResult Create(CreatePostDto newPost)
+        public async Task<IActionResult> Create(CreatePostDto newPost)
         {
-            var post = _postService.AddNewPost(newPost);
+            var post = await _postService.AddNewPostAsync(newPost);
             return Created($"api/posts/{post.Id}", post);
         }
 
         [SwaggerOperation(Summary = "Update a existing post")]
         [HttpPut]
-        public IActionResult Update(UpdatePostDto updatePost)
+        public async Task<IActionResult> Update(UpdatePostDto updatePost)
         {
-            _postService.UpdatePost(updatePost);
+            await _postService.UpdatePostAsync(updatePost);
             return NoContent();
         }
 
         [SwaggerOperation(Summary = "Delete a specific post")]
         [HttpDelete]
-        public IActionResult Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
-            _postService.DeletePost(id);
+            await _postService.DeletePostAsync(id);
             return NoContent();
         }
         [SwaggerOperation(Summary = "Searching specific title")]
         [HttpGet("Search/{title}")]
-        public IActionResult SearachingPost(string title)
+        public async Task<IActionResult> SearachingPostAsync(string title)
         {
-            var searchingPost = _postService.SearachingPost(title);
+            var searchingPost = await _postService.SearachingPostAsync(title);
             return Ok(searchingPost);
         }
     }
