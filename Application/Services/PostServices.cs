@@ -21,7 +21,7 @@ namespace Application.Services
             _postRepository = postRepository;
             _mapper = mapper;
         }
-               
+
         public IEnumerable<PostDto> GetAllPosts()
         {
             var posts = _postRepository.GetAll();
@@ -49,7 +49,7 @@ namespace Application.Services
         {
             var existingPost = _postRepository.GetById(updatePost.Id);
             var post = _mapper.Map(updatePost, existingPost);
-            _postRepository.Update(post);   
+            _postRepository.Update(post);
         }
 
         public void DeletePost(int id)
