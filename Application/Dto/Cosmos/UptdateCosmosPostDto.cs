@@ -1,23 +1,22 @@
-﻿using Application.Mappings;
-using AutoMapper;
+﻿using AutoMapper;
 using Domain.Entities;
+using Domain.Entities.Cosmos;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Application.Dto
+namespace Application.Dto.Cosmos
 {
-    public class UpdatePostDto : IMap
+    public class UpdateCosmosPostDto
     {
-        public int Id { get; set; }
+        public string Id { get; set; }
         public string Content { get; set; }
 
         public void Mapping(Profile profile)
         {
-            profile.CreateMap<UpdatePostDto, Post>();
-            //profile.CreateMap<CreatePostDto, Post>();
+            profile.CreateMap<UpdateCosmosPostDto, CosmosPost>();
         }
     }
 }

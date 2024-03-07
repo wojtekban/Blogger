@@ -12,6 +12,7 @@ public static class DependencyInjection
     {
         services.AddScoped<IPostService, PostServices>();
         services.AddAutoMapper(Assembly.GetExecutingAssembly());
+        services.AddScoped<ICosmosPostService, CosmosPostServices>();
 
         return services;
     }
