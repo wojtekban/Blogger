@@ -23,12 +23,22 @@ namespace WebAPI.Controllers.V1
         {
             _postService = postService;
         }
+
+        [SwaggerOperation(Summary = "Retrieves sort fields")]
+        [HttpGet("[action]")]
+        public IActionResult GetSortFields()
+        {            
+            return Ok(SortingHelper.GetSortFields().Select(x => x.Key));
+        }
+
         [SwaggerOperation(Summary = "Retrieves all posts")]
         [HttpGet]
-        public async Task<IActionResult> Get([FromQuery] PaginationFilter paginationFilter)
+        public async Task<IActionResult> Get([FromQuery] PaginationFilter paginationFilter, [FromQuery] SortingFilter sortingFilter)
         {
             var validPaginationFilter = new PaginationFilter(paginationFilter.PageNumber, paginationFilter.PageSize);
-            var posts = await _postService.GetAllPostsAsync(validPaginationFilter.PageNumber, validPaginationFilter.PageSize);
+            var validSortingFilter = new SortingFilter(sortingFilter.SortField, sortingFilter.Ascending);                                                        
+            var posts = await _postService.GetAllPostsAsync(validPaginationFilter.PageNumber, validPaginationFilter.PageSize,
+                                                            validSortingFilter.SortField, validSortingFilter.Ascending);
             var totalRecords = await _postService.GetAllPostsCountAsync();
 
             //return Ok(new PagedResponse<IEnumerable<PostDto>>(posts, validPaginationFilter.PageNumber, validPaginationFilter.PageSize));
@@ -69,13 +79,6 @@ namespace WebAPI.Controllers.V1
         {
             await _postService.DeletePostAsync(id);
             return NoContent();
-        }
-        [SwaggerOperation(Summary = "Searching specific title")]
-        [HttpGet("Search/{title}")]
-        public async Task<IActionResult> SearachingPostAsync(string title, int pageNumber, int pageSize)
-        {
-            var searchingPost = await _postService.SearachingPostAsync(title, pageNumber, pageSize);
-            return Ok(searchingPost);
-        }
+        }      
     }
 }

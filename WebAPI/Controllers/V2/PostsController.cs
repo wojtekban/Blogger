@@ -64,14 +64,6 @@ namespace WebAPI.Controllers.V2
         {
             await _postService.DeletePostAsync(id);
             return NoContent();
-        }
-
-        [SwaggerOperation(Summary = "Searching specific title")]
-        [HttpGet("Search/{title}")]
-        public async Task<IActionResult> SearachingPostAsync(string title)
-        {
-            var searchingPost = await _postService.SearachingPostAsync(title);
-            return Ok(searchingPost);
-        }
+        }        
     }
 }

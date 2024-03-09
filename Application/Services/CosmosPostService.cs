@@ -60,12 +60,6 @@ namespace Application.Services
         {
             var post = await _postRepository.GetByIdAsync(id);
             await _postRepository.DeleteAsync(post);
-        }
-        public async Task<List<CosmosPostDto>> SearachingPostAsync(string searchingTitle)
-        {
-            var posts = await _postRepository.GetAllAsync();
-            var postFound = posts.Where(post => post.Title.Contains(searchingTitle));
-            return _mapper.Map<List<CosmosPostDto>>(postFound);
-        }
+        }       
     }
 }

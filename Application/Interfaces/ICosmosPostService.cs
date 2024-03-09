@@ -14,7 +14,6 @@ namespace Application.Interfaces
         Task<CosmosPostDto> GetPostByIdAsync(string id);
         Task<CosmosPostDto> AddNewPostAsync(CreateCosmosPostDto newPost);
         Task UpdatePostAsync(UpdateCosmosPostDto updatePost);
-        Task DeletePostAsync(string id);
-        Task<List<CosmosPostDto>> SearachingPostAsync(string searchingTitle);
+        Task DeletePostAsync(string id);       
     }
 }
