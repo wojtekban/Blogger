@@ -33,7 +33,8 @@ namespace WebAPI.Installer
                 x.AssumeDefaultVersionWhenUnspecified = true;
                 x.ReportApiVersions = true;
                 x.ApiVersionReader = new HeaderApiVersionReader("x-api-version");
-            });        
+            });
+            services.AddAuthorization();
         }
     }
 }

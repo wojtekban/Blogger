@@ -9,12 +9,14 @@ using Swashbuckle.AspNetCore.Annotations;
 using WebAPI.Filters;
 using WebAPI.helpers;
 using WebAPI.Wrappers;
+using Microsoft.AspNetCore.Authorization;
 
 namespace WebAPI.Controllers.V1
 {
     //[ApiExplorerSettings(IgnoreApi = true)]
     [Route("api/[controller]")]
     [ApiVersion("1.0")]
+    [Authorize]
     [ApiController]
     public class PostsController : ControllerBase
     {

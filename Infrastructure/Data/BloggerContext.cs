@@ -6,12 +6,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Domain.Common;
+using Infrastructure.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace Infrastructure.Data
 {
-    public class BloggerContext : DbContext
+    public class BloggerContext : IdentityDbContext<ApplicationUser>
     {
-        public BloggerContext(DbContextOptions options) : base(options)
+        public BloggerContext(DbContextOptions<BloggerContext> options) : base(options)
         {         
         }
         public DbSet<Post> Posts { get; set; }
