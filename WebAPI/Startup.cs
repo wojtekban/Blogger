@@ -5,6 +5,10 @@ using Application.Mappings;
 using Domain.Interfaces;
 using Infrastructure.Repositories;
 using WebAPI.Installer;
+using Microsoft.OData.ModelBuilder;
+using Microsoft.OData.Edm;
+using Microsoft.AspNetCore.OData;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace WebAPI;
 
@@ -20,6 +24,8 @@ public class Startup
     public void ConfigureServices(IServiceCollection services)
     {
         services.InstallServicesInAssembly(Configuration);
+       // services.AddControllers().AddOData(opt => opt.Count().Filter().OrderBy().Expand().SetMaxTop(100)
+      //                          .AddRouteComponents("odata", GetEdmModel()));
     }
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -42,10 +48,10 @@ public class Startup
             endpoints.MapControllers();
         });
     }
-    //public static IEdmModel GetEdmModel()
-    //{
-    //    var builder = new ODataConventionModelBuilder();
-    //    builder.EntitySet<Application.Dto.PostDto>("Posts");
-    //    return builder.GetEdmModel();
-    //}
+    public static IEdmModel GetEdmModel()
+    {
+        var builder = new ODataConventionModelBuilder();
+        builder.EntitySet<Application.Dto.PostDto>("Posts");
+        return builder.GetEdmModel();
+    }
 }

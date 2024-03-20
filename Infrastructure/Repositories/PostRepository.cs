@@ -19,6 +19,10 @@ namespace Infrastructure.Repositories
         {
             _context = context;
         }
+        public IQueryable<Post> GetAll()
+        {
+            return _context.Posts.AsQueryable();
+        }
         public async Task<IEnumerable<Post>> GetAllAsync(int pageNumber, int pageSize, string sortField, bool ascending, string filterBy)
         {
             return await _context.Posts

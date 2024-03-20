@@ -33,6 +33,7 @@
       "commandName": "IISExpress",
       "launchBrowser": true,
       "launchUrl": "swagger",
+    //  "launchUrl": "api/posts/getall",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
