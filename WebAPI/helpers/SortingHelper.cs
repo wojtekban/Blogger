@@ -1,4 +1,4 @@
-﻿namespace WebAPI.helpers
+﻿namespace WebAPI.Helpers
 {
     public class SortingHelper
     {

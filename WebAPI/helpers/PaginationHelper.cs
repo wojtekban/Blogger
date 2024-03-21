@@ -1,7 +1,7 @@
 ﻿using WebAPI.Filters;
 using WebAPI.Wrappers;
 
-namespace WebAPI.helpers
+namespace WebAPI.Helpers
 {
     public class PaginationHelper
     {

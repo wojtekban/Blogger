@@ -12,6 +12,7 @@ using Microsoft.OData.Edm;
 using Microsoft.OData.ModelBuilder;
 using Microsoft.AspNetCore.OData.Extensions;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace WebAPI.Installer
 {
@@ -35,6 +36,7 @@ namespace WebAPI.Installer
                 x.ApiVersionReader = new HeaderApiVersionReader("x-api-version");
             });
             services.AddAuthorization();
+            services.TryAddTransient<UserResolverService>();
         }
     }
 }

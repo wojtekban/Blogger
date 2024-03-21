@@ -1,4 +1,4 @@
-﻿using WebAPI.helpers;
+﻿using WebAPI.Helpers;
 
 namespace WebAPI.Filters
 {
