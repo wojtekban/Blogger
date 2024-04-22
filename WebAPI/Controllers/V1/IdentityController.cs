@@ -141,7 +141,7 @@ public class IdentityController : ControllerBase
                 signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256)
                 );
 
-            return Ok(new
+            return Ok(new //AuthSuccessResponse()
             {
                 token = new JwtSecurityTokenHandler().WriteToken(token),
                 expiration = token.ValidTo

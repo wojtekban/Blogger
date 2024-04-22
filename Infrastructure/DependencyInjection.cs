@@ -16,6 +16,7 @@ namespace Infrastructure
         {
             services.AddScoped<IPostRepository, PostRepository>();
             services.AddScoped<ICosmosPostRepository, CosmosPostRepository>();
+            services.AddScoped<IPictureRepository, PictureRepository>();
             return services;
    
         }   

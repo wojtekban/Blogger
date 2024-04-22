@@ -13,6 +13,7 @@ using Microsoft.OData.ModelBuilder;
 using Microsoft.AspNetCore.OData.Extensions;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using WebAPI.Middelwares;
 
 namespace WebAPI.Installer
 {
@@ -37,6 +38,7 @@ namespace WebAPI.Installer
             });
             services.AddAuthorization();
             services.TryAddTransient<UserResolverService>();
+            services.AddScoped<ErrorHandlingMiddelware>();
         }
     }
 }

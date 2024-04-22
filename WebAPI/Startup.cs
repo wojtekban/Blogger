@@ -9,6 +9,8 @@ using Microsoft.OData.ModelBuilder;
 using Microsoft.OData.Edm;
 using Microsoft.AspNetCore.OData;
 using Microsoft.Extensions.DependencyInjection;
+using WebAPI.Middelwares;
+using Application.Dto;
 
 namespace WebAPI;
 
@@ -36,7 +38,7 @@ public class Startup
             app.UseSwagger();
             app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "WebAPI v1"));
         }
-
+        app.UseMiddleware<ErrorHandlingMiddelware>();
         app.UseHttpsRedirection();
 
         app.UseRouting();
@@ -51,7 +53,7 @@ public class Startup
     public static IEdmModel GetEdmModel()
     {
         var builder = new ODataConventionModelBuilder();
-        builder.EntitySet<Application.Dto.PostDto>("Posts");
+        builder.EntitySet<PostDto>("Posts");
         return builder.GetEdmModel();
     }
 }

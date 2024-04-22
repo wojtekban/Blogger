@@ -1,11 +1,6 @@
 ﻿using Application.Mappings;
 using AutoMapper;
 using Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Application.Dto
 {
@@ -17,7 +12,6 @@ namespace Application.Dto
         public void Mapping(Profile profile)
         {
             profile.CreateMap<UpdatePostDto, Post>();
-            //profile.CreateMap<CreatePostDto, Post>();
         }
     }
 }
