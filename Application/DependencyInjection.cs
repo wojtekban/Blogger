@@ -14,6 +14,7 @@ public static class DependencyInjection
         services.AddAutoMapper(Assembly.GetExecutingAssembly());
         services.AddScoped<ICosmosPostService, CosmosPostServices>();
         services.AddScoped<IPictureService, PictureService>();
+        services.AddScoped<IAttachmentService, AttachmentService>();
 
         return services;
     }

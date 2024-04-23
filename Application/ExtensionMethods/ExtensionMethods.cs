@@ -15,7 +15,7 @@ public static class ExtensionMethods
 
     public static string SaveFile(this IFormFile formFile)
     {
-        string rootPath = @"D:\repos5\Blogger\Blogger_Attachments";
+        string rootPath = @"C:\Users\Wojtek\Desktop\Blogger\Blogger_Attachments";
         if (!Directory.Exists(rootPath))
             Directory.CreateDirectory(rootPath);
         string filePath = Path.Combine(rootPath, $"{Guid.NewGuid()}_{formFile.FileName}");
