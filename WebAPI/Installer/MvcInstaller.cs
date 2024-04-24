@@ -14,6 +14,8 @@ using Microsoft.AspNetCore.OData.Extensions;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using WebAPI.Middelwares;
+using FluentValidation.AspNetCore;
+using Application.Validators;
 
 namespace WebAPI.Installer
 {
@@ -23,7 +25,12 @@ namespace WebAPI.Installer
         {
             services.AddApplication();
             services.AddInfrastructure();
+
             services.AddControllers()
+                .AddFluentValidation(options =>
+                {
+                    options.RegisterValidatorsFromAssemblyContaining<CreatePostDtoValidator>();
+                })
                 .AddJsonOptions(options =>
                 {
                     options.JsonSerializerOptions.WriteIndented = true;
