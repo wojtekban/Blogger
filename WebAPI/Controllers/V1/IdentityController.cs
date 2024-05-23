@@ -30,7 +30,11 @@ public class IdentityController : ControllerBase
         _configuration = configuration;
         _emailSenderService = emailSenderService;
     }
-
+    /// <summary>
+    /// Registers the user in the system
+    /// </summary>
+    /// <response code="200">User created successfully!</response>
+    /// <response code="500">User already exists!</response>
     [HttpPost]
     [Route("Register")]
     public async Task<IActionResult> Register(RegisterModel register)
@@ -72,7 +76,9 @@ public class IdentityController : ControllerBase
 
         return Ok(new Response<bool> { Succeeded = true, Message = "User created successfully!" });
     }
-
+    /// <summary>
+    /// Registers the admin in the system
+    /// </summary>
     [HttpPost]
     [Route("RegisterAdmin")]
     public async Task<IActionResult> RegisterAdmin(RegisterModel register)
@@ -112,7 +118,9 @@ public class IdentityController : ControllerBase
 
         return Ok(new Response<bool> { Succeeded = true, Message = "User created successfully!" });
     }
-
+    /// <summary>
+    /// Logs the user into system
+    /// </summary>
     [HttpPost]
     [Route("Login")]
     public async Task<IActionResult> Login(LoginModel login)
@@ -141,10 +149,10 @@ public class IdentityController : ControllerBase
                 signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256)
                 );
 
-            return Ok(new //AuthSuccessResponse()
+            return Ok(new AuthSuccessResponse()
             {
-                token = new JwtSecurityTokenHandler().WriteToken(token),
-                expiration = token.ValidTo
+                Token = new JwtSecurityTokenHandler().WriteToken(token),
+                Expiration = token.ValidTo
             });
         }
         return Unauthorized();

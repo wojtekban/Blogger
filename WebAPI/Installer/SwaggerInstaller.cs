@@ -2,6 +2,8 @@
 using WebAPI.Installer;
 using OData.Swagger.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using System.Reflection;
+using Swashbuckle.AspNetCore.Filters;
 
 namespace WebAPI.Installer;
 
@@ -13,7 +15,8 @@ public class SwaggerInstaller : IInstaller
         {
             c.EnableAnnotations();
             c.SwaggerDoc("v1", new OpenApiInfo { Title = "WebAPI", Version = "v1" });
-           
+            c.ExampleFilters();
+
             c.ResolveConflictingActions(apiDescriptions => apiDescriptions.First());
 
             // add JWT Authentication
@@ -36,8 +39,13 @@ public class SwaggerInstaller : IInstaller
                 {
                     {securityScheme, new string[] { }}
                 });
+
+            var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+            var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+            c.IncludeXmlComments(xmlPath);
         });
 
         services.AddOdataSwaggerSupport();
+        services.AddSwaggerExamplesFromAssemblyOf<Startup>();
     }
 }

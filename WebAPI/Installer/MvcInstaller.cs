@@ -27,14 +27,15 @@ namespace WebAPI.Installer
             services.AddInfrastructure();
 
             services.AddControllers()
-                .AddFluentValidation(options =>
-                {
-                    options.RegisterValidatorsFromAssemblyContaining<CreatePostDtoValidator>();
-                })
-                .AddJsonOptions(options =>
-                {
-                    options.JsonSerializerOptions.WriteIndented = true;
-                });
+            .AddFluentValidation(options =>
+            {
+                options.RegisterValidatorsFromAssemblyContaining<CreatePostDtoValidator>();
+            })
+            .AddJsonOptions(options =>
+            {
+                options.JsonSerializerOptions.WriteIndented = true;
+            })
+            .AddXmlSerializerFormatters();
 
             services.AddApiVersioning(x =>
             {
