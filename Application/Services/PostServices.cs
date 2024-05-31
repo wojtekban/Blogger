@@ -2,14 +2,8 @@
 using AutoMapper;
 using Domain.Entities;
 using Domain.Interfaces;
-using AutoMapper.Execution;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Application.Dto;
+using Microsoft.Extensions.Logging;
 
 namespace Application.Services
 {
@@ -17,11 +11,13 @@ namespace Application.Services
     {
         private readonly IPostRepository _postRepository;
         private readonly IMapper _mapper;
+        private readonly ILogger _logger;
 
-        public PostServices(IPostRepository postRepository, IMapper mapper)
+        public PostServices(IPostRepository postRepository, IMapper mapper, ILogger<PostServices> logger)
         {
             _postRepository = postRepository;
             _mapper = mapper;
+            _logger = logger;
         }
 
         public IQueryable<PostDto> GetAllPosts()
@@ -32,6 +28,9 @@ namespace Application.Services
 
         public async Task<IEnumerable<PostDto>> GetAllPostAsync(int pageNumber, int pageSize, string sortField, bool ascending, string filterBy)
         {
+            _logger.LogDebug("Fetching posts.");
+            _logger.LogInformation($"pageNumber: {pageNumber} | pageSize: {pageSize}");
+
             var posts = await _postRepository.GetAllAsync(pageNumber, pageSize, sortField, ascending, filterBy);
             return _mapper.Map<IEnumerable<PostDto>>(posts);
         }

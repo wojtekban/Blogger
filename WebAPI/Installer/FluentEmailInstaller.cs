@@ -1,23 +1,21 @@
 ﻿using Application.Interfaces;
 using Application.Services.Emails;
-using FluentEmail.Core;
 using WebAPI.Installer;
 
-namespace WebAPI.Installers
+namespace WebAPI.Installers;
+
+public class FluentEmailInstaller : IInstaller
 {
-    public class FluentEmailInstaller : IInstaller
+    public void InstallServices(IServiceCollection services, IConfiguration Configuration)
     {
-        public void InstallServices(IServiceCollection services, IConfiguration Configuration)
-        {
-            services
+        services
                 .AddFluentEmail(Configuration["FluentEmail:FromEmail"], Configuration["FluentEmail:FromName"])
                 .AddRazorRenderer()
                 .AddSmtpSender(Configuration["FluentEmail:SmptSender:Host"],
-                    int.Parse(Configuration["FluentEmail:SmptSender:Port"]),
+                     int.Parse(Configuration["FluentEmail:SmptSender:Port"]),
                                 Configuration["FluentEmail:SmptSender:Username"],
                                 Configuration["FluentEmail:SmptSender:Password"]);
 
-            services.AddScoped<IEmailSenderService, EmailSenderService>();
-        }
+        services.AddScoped<IEmailSenderService, EmailSenderService>();
     }
 }

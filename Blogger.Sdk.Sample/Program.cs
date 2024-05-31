@@ -10,8 +10,8 @@ public class Program
     {
         var cachedToken = string.Empty;
 
-        var identityApi = RestService.For<IIdentityApi>("https://localhost:44364/");
-        var bloggerApi = RestService.For<IBloggerApi>("https://localhost:44364/", new RefitSettings
+        var identityApi = RestService.For<IIdentityApi>("https://localhost:44307/");
+        var bloggerApi = RestService.For<IBloggerApi>("https://localhost:44307/", new RefitSettings
         {
             AuthorizationHeaderValueGetter = (request, cancellationToken) => Task.FromResult(cachedToken)
             //AuthorizationHeaderValueGetter = () => Task.FromResult(cachedToken)
