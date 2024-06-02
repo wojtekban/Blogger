@@ -19,6 +19,11 @@ namespace Application.Services
             _mapper = mapper;
             _logger = logger;
         }
+        public IQueryable<PostDto> GetAllPosts()
+        {
+            var posts = _postRepository.GetAll();
+            return _mapper.ProjectTo<PostDto>(posts);
+        }
 
         public async Task<IEnumerable<PostDto>> GetAllPostsAsync(int pageNumber, int pageSize, string sortField, bool ascending, string filterBy)
         {

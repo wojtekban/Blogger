@@ -11,6 +11,7 @@ using Infrastructure.Identity;
 using Application.Dto;
 using WebAPI.Attributes;
 using Microsoft.Extensions.Caching.Memory;
+using WebAPI.Cache;
 
 
 namespace WebAPI.Controllers.V1
@@ -41,8 +42,9 @@ namespace WebAPI.Controllers.V1
         }
 
         [SwaggerOperation(Summary = "Retrieves paged posts")]
+        [Cached(600)]
         [HttpGet]
-        public async Task<IActionResult> Get([FromQuery] PaginationFilter paginationFilter, [FromQuery] SortingFilter sortingFilter, [FromQuery] string filterBy = "")
+        public async Task<IActionResult> GetAsync([FromQuery] PaginationFilter paginationFilter, [FromQuery] SortingFilter sortingFilter, [FromQuery] string filterBy = "")
         {
             var validPaginationFilter = new PaginationFilter(paginationFilter.PageNumber, paginationFilter.PageSize);
             var validSortingFilter = new SortingFilter(sortingFilter.SortField, sortingFilter.Ascending);
@@ -65,7 +67,7 @@ namespace WebAPI.Controllers.V1
             if (posts == null)
             {
                 _logger.LogInformation("Fetching from service.");
-                posts = _postService.GetAllPostsAsync();
+                posts = _postService.GetAllPosts();
                 _memoryCache.Set("posts", posts, TimeSpan.FromMinutes(1));
             }
             else
