@@ -1,7 +1,4 @@
 ﻿using Application.Interfaces;
-using Application.Validators;
-using Domain.Interfaces;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.OData.Query;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
@@ -13,6 +10,7 @@ using Microsoft.AspNetCore.Authorization;
 using Infrastructure.Identity;
 using Application.Dto;
 using WebAPI.Attributes;
+using Microsoft.Extensions.Caching.Memory;
 
 
 namespace WebAPI.Controllers.V1
@@ -25,10 +23,14 @@ namespace WebAPI.Controllers.V1
     public class PostsController : ControllerBase
     {
         private readonly IPostService _postService;
+        private readonly IMemoryCache _memoryCache;
+        private readonly ILogger _logger;
 
-        public PostsController(IPostService postService)
+        public PostsController(IPostService postService, IMemoryCache memoryCache, ILogger<PostsController> logger)
         {
             _postService = postService;
+            _memoryCache = memoryCache;
+            _logger = logger;
         }
 
         [SwaggerOperation(Summary = "Retrieves sort fields")]
@@ -45,7 +47,7 @@ namespace WebAPI.Controllers.V1
             var validPaginationFilter = new PaginationFilter(paginationFilter.PageNumber, paginationFilter.PageSize);
             var validSortingFilter = new SortingFilter(sortingFilter.SortField, sortingFilter.Ascending);
 
-            var posts = await _postService.GetAllPostAsync(validPaginationFilter.PageNumber, validPaginationFilter.PageSize,
+            var posts = await _postService.GetAllPostsAsync(validPaginationFilter.PageNumber, validPaginationFilter.PageSize,
                                                        validSortingFilter.SortField, validSortingFilter.Ascending,
                                                        filterBy);
             var totalRecords = await _postService.GetAllPostCountAsync(filterBy);
@@ -59,7 +61,21 @@ namespace WebAPI.Controllers.V1
         [EnableQuery]
         public IQueryable<PostDto> GetAll()
         {
-            return _postService.GetAllPosts();
+            var posts = _memoryCache.Get<IQueryable<PostDto>>("posts");
+            if (posts == null)
+            {
+                _logger.LogInformation("Fetching from service.");
+                posts = _postService.GetAllPostsAsync();
+                _memoryCache.Set("posts", posts, TimeSpan.FromMinutes(1));
+            }
+            else
+            {
+                _logger.LogInformation("Fetching from cache");
+            }
+
+
+
+            return posts;
         }
 
         [SwaggerOperation(Summary = "Retrievers a specific post by unique id")]

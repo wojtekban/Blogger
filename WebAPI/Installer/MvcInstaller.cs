@@ -16,6 +16,7 @@ namespace WebAPI.Installer
         {
             services.AddApplication();
             services.AddInfrastructure();
+            services.AddMemoryCache();
 
             services.AddControllers()
             .AddFluentValidation(options =>

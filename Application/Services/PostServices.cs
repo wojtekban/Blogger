@@ -20,13 +20,7 @@ namespace Application.Services
             _logger = logger;
         }
 
-        public IQueryable<PostDto> GetAllPosts()
-        {
-            var posts = _postRepository.GetAll();
-            return _mapper.ProjectTo<PostDto>(posts);
-        }
-
-        public async Task<IEnumerable<PostDto>> GetAllPostAsync(int pageNumber, int pageSize, string sortField, bool ascending, string filterBy)
+        public async Task<IEnumerable<PostDto>> GetAllPostsAsync(int pageNumber, int pageSize, string sortField, bool ascending, string filterBy)
         {
             _logger.LogDebug("Fetching posts.");
             _logger.LogInformation($"pageNumber: {pageNumber} | pageSize: {pageSize}");
