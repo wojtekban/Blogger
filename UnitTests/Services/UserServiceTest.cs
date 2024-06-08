@@ -1,7 +1,7 @@
 ﻿using Infrastructure.Identity;
 using Xunit;
 
-namespace UnitTests.Services
+namespace UnitTests.UnitTests.Services
 {
     public class UserServiceTest
     {
