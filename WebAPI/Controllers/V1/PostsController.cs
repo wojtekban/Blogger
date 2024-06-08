@@ -42,6 +42,8 @@ namespace WebAPI.Controllers.V1
         }
 
         [SwaggerOperation(Summary = "Retrieves paged posts")]
+        [AllowAnonymous]    // przy testach integracyjnych
+        //[Authorize(Roles = UserRoles.Admin)]
         [Cached(600)]
         [HttpGet]
         public async Task<IActionResult> GetAsync([FromQuery] PaginationFilter paginationFilter, [FromQuery] SortingFilter sortingFilter, [FromQuery] string filterBy = "")
@@ -81,7 +83,8 @@ namespace WebAPI.Controllers.V1
         }
 
         [SwaggerOperation(Summary = "Retrievers a specific post by unique id")]
-        [HttpGet("{id}")]
+        [AllowAnonymous]    // przy testach integracyjnych
+        [HttpGet("{id}")]   
         public async Task<IActionResult> Get(int id)
         {
             var post = await _postService.GetPostByIdAsync(id);
